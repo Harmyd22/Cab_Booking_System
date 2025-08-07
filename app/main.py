@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .database import Base,engine
+from .Routes import auth
 import os
 
 
@@ -17,6 +18,8 @@ app.add_middleware(
 @app.get("/")
 def index():
     return {"message":"Cab booking system api"}
+
+app.include_router(auth.auth)
 
 
 #Starting the fastapi app only when the app is called directly

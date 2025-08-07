@@ -14,4 +14,4 @@ class User(Base):
     phone_number=Column(String,unique=True)
     address=Column(String)
     role=Column(String,default="User")
-    profile_picture=Column(String)
+    profile_picture=Column(String,nullable=True)
