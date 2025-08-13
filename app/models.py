@@ -15,3 +15,17 @@ class User(Base):
     address=Column(String)
     role=Column(String,default="User")
     profile_picture=Column(String,nullable=True)
+
+#class Bookings(Base):
+
+
+class Cabs(Base):
+    id=Column(Integer,primary_key=True,index=True)
+    ref_code=Column(Integer,index=True)
+    category_id=Column(Integer)
+    model=Column(String)
+    details=Column(String)
+    driver_id=Column(Integer)
+    plate=Column(String)
+
+    

@@ -1,5 +1,5 @@
 from fastapi import UploadFile,status
-import cloudinary
+import cloudinary.uploader
 from ..models import User
 from fastapi.responses import JSONResponse
 from ..Utils.validator import valid_email,validate_password
@@ -14,26 +14,26 @@ def Signup(FullName,Email,Password,Gender,Phone_number,Address,Profile_picture:U
     if isinstance(Email_validation,JSONResponse):
         return Email_validation
     email=Email_validation
-    #checking if the email exists already
+        #checking if the email exists already
     existing_email=db.query(User).filter(User.email==email).first()
     if existing_email:
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
             content={"message":"Email exists"}
         )
-    #checking if the phone number exists
+        #checking if the phone number exists
     existing_phone_number=db.query(User).filter(User.phone_number==Phone_number).first()
     if existing_phone_number:
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
             content={"message":"Phone number exists"}
         )
-    #check if the password match all requirement and hash the password
+        #check if the password match all requirement and hash the password
     password_validation=validate_password(Password)
     if isinstance(password_validation,JSONResponse):
         return password_validation
     Password=password_validation
-    try:
+    try:    
         url=None
         if Profile_picture:
             result=cloudinary.uploader.upload(
@@ -57,7 +57,7 @@ def Signup(FullName,Email,Password,Gender,Phone_number,Address,Profile_picture:U
                                         ),
                 "Token_type":"Bearer",
                 }
-        )
+            )
     except Exception as e:
         db.rollback()
         return JSONResponse(
